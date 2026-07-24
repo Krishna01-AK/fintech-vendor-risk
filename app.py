@@ -17,11 +17,35 @@ recent_breach = st.checkbox("Vendor has had a publicly known breach in the last 
 soc2_certified = st.checkbox("Vendor holds a current SOC 2 (or equivalent) certification")
 incident_response_plan = st.checkbox("Vendor has a documented incident response plan")
 
-if st.button("Review Answers"):
-    st.subheader("Summary")
-    st.write(f"**Vendor name:** {vendor_name}")
-    st.write(f"**Category:** {vendor_industry}")
-    st.write(f"**MFA enforced:** {mfa_enabled}")
-    st.write(f"**Recent breach:** {recent_breach}")
-    st.write(f"**SOC 2 certified:** {soc2_certified}")
-    st.write(f"**Incident response plan:** {incident_response_plan}")
+if st.button("Calculate Trust Score"):
+    trust_score = 100
+
+    if recent_breach:
+        trust_score -= 40
+    if not mfa_enabled:
+        trust_score -= 25
+    if not soc2_certified:
+        trust_score -= 20
+    if not incident_response_plan:
+        trust_score -= 15
+
+    trust_score = max(trust_score, 0)  # never show a negative score
+
+    if trust_score >= 80:
+        risk_level = "Low Risk"
+        recommendation = "Approve"
+    elif trust_score >= 50:
+        risk_level = "Medium Risk"
+        recommendation = "Approve with monitoring"
+    elif trust_score >= 25:
+        risk_level = "High Risk"
+        recommendation = "Requires further investigation"
+    else:
+        risk_level = "Critical Risk"
+        recommendation = "Do not approve / escalate"
+
+    st.subheader("Trust Assessment Result")
+    st.write(f"**Vendor:** {vendor_name} ({vendor_industry})")
+    st.metric("Trust Score", f"{trust_score} / 100")
+    st.write(f"**Risk Level:** {risk_level}")
+    st.write(f"**Recommendation:** {recommendation}")

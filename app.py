@@ -4,7 +4,14 @@ from database import init_db, save_assessment
 init_db()
 
 st.title("Fintech Vendor Risk Assessment Tool")
-st.write("Enter details about a third-party vendor to assess their risk.")
+st.write(
+    "Third-party vendors are often assessed once, at onboarding, and never "
+    "revisited — even though their security posture can change over time. "
+    "This tool scores a vendor's trustworthiness based on key security "
+    "practices, and keeps a history so you can track how that score "
+    "changes with each reassessment."
+)
+st.divider()
 
 st.header("Vendor Information")
 vendor_name = st.text_input("Vendor name")

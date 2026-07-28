@@ -1,42 +1,48 @@
 # Progress Log
 
 ## Current State
-Full dev environment working end-to-end: Python, VS Code, Git, GitHub 
-repo all connected. Streamlit installed and confirmed working with a 
-minimal "hello world" app (app.py) that runs locally and shows in 
-browser.
+Working prototype with three real features: (1) a form to enter vendor 
+info and answer security questions, (2) a Trust Score calculation 
+(0-100, higher = better) with justified weighting based on breach 
+history, MFA, SOC 2 certification, and incident response planning, 
+(3) results are saved to a real SQLite database (vendor_risk.db, 
+excluded from Git via .gitignore).
 
 ## Last Updated
-2026-07-24
+2026-07-28
 
 ## Files that exist
 - PROGRESS.md — this file
-- app.py — minimal Streamlit test ("Fintech Vendor Risk Tool" title, 
-  confirms setup works). Not yet the real app.
-- venv/ — virtual environment folder (not pushed to GitHub, see note 
-  below)
+- app.py — main Streamlit app: form, scoring logic, display
+- database.py — SQLite setup (init_db) and save function (save_assessment)
+- .gitignore — excludes venv/, __pycache__/, .streamlit/, *.db
+- venv/ — local virtual environment (not in Git, regenerate locally 
+  via `python -m venv venv` if needed)
 
 ## Next Step
-Build the first real feature: a Streamlit form where a user enters 
-vendor details (name, industry, etc.) and answers a short set of 
-security questions. No scoring logic yet — just capture the inputs 
-and display them back, to prove the form works before adding 
-calculation logic.
+Build a "View Past Assessments" section: read all rows from 
+vendor_risk.db and display them as a table (likely a second page or 
+a section below the form). This is the feature that fulfils the core 
+idea of the project — tracking a vendor's trust score over multiple 
+assessments over time, not just a one-off calculation.
 
 ## Decisions Made (don't re-litigate these)
-- Using Python + Streamlit + SQLite (beginner-friendly, fast to a 
-  working prototype, everything learned is reusable Python)
-- Target audience: fintech product/risk management portfolio, not 
-  pure software engineering
-- Core idea: vendor risk score should be re-assessed over time, not 
+- Python + Streamlit + SQLite stack (beginner-friendly, fast to 
+  working prototype)
+- Target audience: fintech product/risk management portfolio
+- Core idea: vendor risk/trust should be reassessed over time, not 
   scored once at onboarding
-- PowerShell execution policy set to RemoteSigned to allow venv 
-  activation (needed once per machine)
+- Score is framed as "Trust Score" (100 = best) not "Risk Score" 
+  (0 = best) — deliberate UX decision to avoid the misleading 
+  intuitive read of a low number looking "good." (Own idea — good 
+  catch, keep this reasoning for portfolio writeup.)
+- Weighting: recent breach (-40) > no MFA (-25) > no SOC2 (-20) > 
+  no incident response plan (-15). Reasoned defaults based on 
+  severity, not yet statistically calibrated — flagged as future 
+  work using real supply-chain-attack data.
+- .db files excluded from Git; only schema/code is version controlled
+- PowerShell execution policy set to RemoteSigned (one-time, per 
+  machine)
 
 ## Open Questions / Blockers
-- Need to add a .gitignore so the venv/ folder never gets committed 
-  (it's large, machine-specific, and shouldn't be in version control 
-  — every collaborator/future-you regenerates their own venv locally)
-- Haven't yet decided the exact list of security questions / scoring 
-  weights — need to research a real framework (e.g. NIST CSF, Shared 
-  Assessments SIG) before finalizing this
+None currently.

@@ -1,4 +1,7 @@
 import streamlit as st
+from database import init_db, save_assessment
+
+init_db()
 
 st.title("Fintech Vendor Risk Assessment Tool")
 st.write("Enter details about a third-party vendor to assess their risk.")
@@ -29,7 +32,7 @@ if st.button("Calculate Trust Score"):
     if not incident_response_plan:
         trust_score -= 15
 
-    trust_score = max(trust_score, 0)  # never show a negative score
+    trust_score = max(trust_score, 0)
 
     if trust_score >= 80:
         risk_level = "Low Risk"
@@ -44,8 +47,15 @@ if st.button("Calculate Trust Score"):
         risk_level = "Critical Risk"
         recommendation = "Do not approve / escalate"
 
+    save_assessment(
+        vendor_name, vendor_industry, mfa_enabled, recent_breach,
+        soc2_certified, incident_response_plan,
+        trust_score, risk_level, recommendation
+    )
+
     st.subheader("Trust Assessment Result")
     st.write(f"**Vendor:** {vendor_name} ({vendor_industry})")
     st.metric("Trust Score", f"{trust_score} / 100")
     st.write(f"**Risk Level:** {risk_level}")
     st.write(f"**Recommendation:** {recommendation}")
+    st.success("This assessment has been saved.")

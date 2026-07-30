@@ -7,3 +7,5 @@ same reason as above to keep our safe and secure incase of any sort of local sto
 Streamlit page looks stale/wrong: hard refresh (F5) before assuming something's broken
 
 Next thing is for a trend analysis we need atleast 2 assesments since it is a trend we need 2 to assess it from time to time. only one asssessment is meaningless to make trend.
+
+diverged branches happen when GitHub has a commit I don't have locally — fix is git pull, then if it says 'still merging,' just git commit to finish it.

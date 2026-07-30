@@ -3,3 +3,7 @@ gi commit command is for saving a particular version in files which you have mad
 
 Why we push often instead of at the very end:
 same reason as above to keep our safe and secure incase of any sort of local storage compromise. also pushing keeps GitHub up to date, which is what lets a new chat(or anyone else) see the current code instead of an old version.
+
+Streamlit page looks stale/wrong: hard refresh (F5) before assuming something's broken
+
+Next thing is for a trend analysis we need atleast 2 assesments since it is a trend we need 2 to assess it from time to time. only one asssessment is meaningless to make trend.

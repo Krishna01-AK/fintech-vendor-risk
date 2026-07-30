@@ -1,4 +1,5 @@
 # Fintech Vendor Risk Assessment Tool
+**[Try the live app →] (https://fintech-vendor-risk.streamlit.app/)**
 
 A working prototype that scores and tracks the security risk of 
 third-party vendors used by fintech companies — built to replace the 
